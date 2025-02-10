@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartita para pauu ♥️</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-size: 1.2em; /* Adjust the base font size */
+        }
+        h1 {
+            font-size: 2.5em; /* Adjust the size of h1 elements */
+        }
+        .buttons button {
+            font-size: 1.5em; /* Adjust the size of buttons */
+        }
+        .gif_container img, .gif_container video {
+            width: 100%; /* Adjust the size of images and videos */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="initialContent">
+        <h1>¿Quieres ser mi Valentín? 🩷</h1>
+        <div class="buttons">
+            <button class="yes-button" onclick="handleYesClick()">SIII</button>
+            <button class="no-button" onclick="handleNoClick()">No.</button>
+        </div>
+        <div class="gif_container">
+            <img src="snoopy love.gif" alt="Cute GIF">
+        </div>
+    </div>
+    <div class="container" id="yesContent" style="display: none;">
+        <h1 class="header_text">YIPPEEEEEE🩷🩷🎉🎉</h1>
+        <div class="gif_container" style="position: relative;">
+            <video id="video" src="Snoopy Flip.mp4" autoplay playsinline></video>
+            <button id="replayButton" class="yes-button" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1em; width: 80%;" onclick="replayVideo()">Ver otra vez a esnupi hacer una moderfoking backflip</button>
+        </div>
+    </div>
+    <div class="container" id="sadContent" style="display: none; text-align: center;">
+        <h1 class="header_text" style="color: rgb(243, 243, 243); font-family: 'Times New Roman', Courier, monospace; font-size: 2em;">Bueno... Ya no te molestaré mas 💔</h1>
+        <audio id="sadAudio" src="Sad Song.mp3" autoplay loop></audio>
+        <div class="gif_container">
+            <img src="snoopy cry.gif" alt="Sad Snoopy" style="width: 100%; height: auto;">
+        </div>
+        <p style="text-align: center; font-size: medium; font-weight: bold;">Hiciste llorar a Snoopy...<br>Espero estés orgullosa... 😒💔</p>
+    </div>
+    <script src="script.js"></script> <!-- Include your script.js file here -->
+    <script>
+        function handleYesClick() {
+            // Hide the initial content
+            document.getElementById('initialContent').style.display = 'none';
+            // Hide the stickers
+            const stickers = document.querySelectorAll('.sticker');
+            stickers.forEach(sticker => {
+                sticker.style.display = 'none';
+            });
+            // Show the yes content
+            document.getElementById('yesContent').style.display = 'block';
+            // Play the video
+            const video = document.getElementById('video');
+            video.play();
+            // Trigger confetti
+            confetti({
+                particleCount: 200,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            // Add event listener to show replay button when video ends
+            video.addEventListener('ended', function() {
+                const replayButton = document.getElementById('replayButton');
+                replayButton.style.display = 'block';
+                replayButton.style.opacity = 0;
+                setTimeout(() => {
+                    replayButton.style.transition = 'opacity 1s';
+                    replayButton.style.opacity = 1;
+                }, 10);
+            });
+        }
+
+        function replayVideo() {
+            const video = document.getElementById('video');
+            video.currentTime = 0; // Reset the video to the beginning
+            video.play();
+            const replayButton = document.getElementById('replayButton');
+            replayButton.style.display = 'none';
+        }
+
+        // Function to create and place stickers
+        function createStickers() {
+            const stickers = [
+                'sticker1.png',
+                'sticker2.png',
+                'sticker3.png',
+                'sticker4.png'
+            ];
+            const body = document.body;
+            const positions = [
+                { top: '4%', left: '2%' },
+                { top: '2%', right: '2%' },
+                { bottom: '10%', left: '5%' },
+                { bottom: '11%', right: '6%' }
+            ];
+            stickers.forEach((src, index) => {
+                const sticker = document.createElement('img');
+                sticker.src = src;
+                sticker.className = 'sticker';
+                sticker.style.position = 'absolute';
+                sticker.style.transform = `rotate(${Math.random() * 50 - 20}deg)`; // Subtle rotation between -15 and 15 degrees
+                Object.assign(sticker.style, positions[index]);
+                body.appendChild(sticker);
+            });
+        }
+
+        // Call the function to create stickers
+        createStickers();
+    </script>
+</body>
+</html>
